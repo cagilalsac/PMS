@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CORE.APP.Services
 {
     /// <summary>
-    /// Provides a generic base service for handling CRUD operations on entities.
+    /// Provides a generic base repository service for handling CRUD operations on entities.
     /// This abstract class defines common database actions such as query, create, update, and delete,
     /// and is designed to work with a specific <typeparamref name="TEntity"/> type.
     /// </summary>
