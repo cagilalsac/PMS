@@ -24,6 +24,39 @@ builder.Services.AddDbContext<ProjectsDb>(options => options.UseSqlite(connectio
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ProjectsDbService).Assembly)); // for IMediator injection in controllers
 
+/*
+ * Service Lifetimes in ASP.NET Core Dependency Injection:
+ *
+ * 1. AddScoped:
+ *    - Lifetime: Scoped to a single HTTP request (or scope).
+ *    - Behavior: Creates one instance of the service per HTTP request.
+ *    - Use case: Use when you want to maintain state or dependencies that last only during a single request.
+ *    - Example: DbContext, which should be shared across operations within a request.
+ *
+ * 2. AddSingleton:
+ *    - Lifetime: Singleton for the entire application lifetime.
+ *    - Behavior: Creates only one instance of the service for the whole app lifecycle.
+ *    - Use case: Use for stateless services or global shared data/services.
+ *    - Example: Caching services, configuration providers, logging services.
+ *
+ * 3. AddTransient:
+ *    - Lifetime: Transient (short-lived).
+ *    - Behavior: Creates a new instance every time the service is requested.
+ *    - Use case: Use for lightweight, stateless services that are cheap to create.
+ *    - Example: Utility/helper classes without state.
+ *
+ * Important Notes:
+ * - Injecting a Scoped service into a Singleton can cause issues due to lifetime mismatch.
+ * - ASP.NET Core DI container will warn about such mismatches.
+ *
+ * Summary:
+ * | Method        | Lifetime                | Instance Created             | Typical Use Case                  |
+ * |---------------|-------------------------|------------------------------|-----------------------------------|
+ * | AddScoped     | Per HTTP request        | One instance per request     | DbContext, per-request services   |
+ * | AddSingleton  | Application-wide        | One instance for app lifetime| Caching, config, logging          |
+ * | AddTransient  | Every time requested    | New instance each time       | Lightweight stateless helpers     |
+ */
+
 
 
 // ======================================================
