@@ -33,7 +33,7 @@ namespace Users.APP.Features.Skills
         /// Initializes a new instance of the <see cref="SkillQueryHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for querying skills.</param>
-        public SkillQueryHandler(UsersDb db) : base(db)
+        public SkillQueryHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 

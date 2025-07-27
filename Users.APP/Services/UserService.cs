@@ -20,7 +20,7 @@ namespace Users.APP.Services
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="db">The database context used for accessing and manipulating <see cref="User"/> entities.</param>
-        protected UserService(UsersDb db) : base(db)
+        protected UserService(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
             // CultureInfo for English culture is set in the base constructor.
             // If another culture such as Turkish culture needs to be used, the assignment can be written as:

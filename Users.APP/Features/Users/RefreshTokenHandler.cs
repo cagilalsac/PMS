@@ -55,7 +55,7 @@ namespace Users.APP.Features.Users
         /// Initializes a new instance of the <see cref="RefreshTokenHandler"/> class with the given database context.
         /// </summary>
         /// <param name="db">The UsersDb database context.</param>
-        public RefreshTokenHandler(UsersDb db) : base(db)
+        public RefreshTokenHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 

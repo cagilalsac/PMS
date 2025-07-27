@@ -23,7 +23,7 @@ namespace Users.APP.Features.Skills
         /// Initializes a new instance of the <see cref="SkillDeleteHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for handling skill-related operations.</param>
-        public SkillDeleteHandler(UsersDb db) : base(db)
+        public SkillDeleteHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 

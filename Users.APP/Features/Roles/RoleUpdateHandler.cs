@@ -32,7 +32,7 @@ namespace Users.APP.Features.Roles
         /// Initializes a new instance of the <see cref="RoleUpdateHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for handling role-related operations.</param>
-        public RoleUpdateHandler(UsersDb db) : base(db)
+        public RoleUpdateHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 

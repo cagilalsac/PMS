@@ -45,7 +45,7 @@ namespace Users.APP.Features.Roles
         /// Initializes a new instance of the <see cref="RoleQueryHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for role-related operations.</param>
-        public RoleQueryHandler(UsersDb db) : base(db)
+        public RoleQueryHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 

@@ -68,7 +68,7 @@ namespace Users.APP.Features.Users
         /// Initializes a new instance of the <see cref="UserUpdateHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for handling user-related operations.</param>
-        public UserUpdateHandler(UsersDb db) : base(db)
+        public UserUpdateHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
         {
         }
 
