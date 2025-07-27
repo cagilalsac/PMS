@@ -90,17 +90,6 @@ namespace CORE.APP.Services
                 Save();
         }
 
-        /// <summary>
-        /// Finds and removes an entity from the database by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the entity to delete.</param>
-        protected void Delete(int id)
-        {
-            var entity = _db.Set<TEntity>().Find(id);
-            if (entity is not null)
-                Delete(entity);
-        }
-
         // *** ***
 
 
