@@ -1,4 +1,4 @@
-﻿namespace CORE.APP.Features
+﻿namespace CORE.APP.Models
 {
     /// <summary>
     /// Represents a base query response object that contains a unique identifier.

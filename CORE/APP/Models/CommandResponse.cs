@@ -1,4 +1,4 @@
-﻿namespace CORE.APP.Features
+﻿namespace CORE.APP.Models
 {
     /// <summary>
     /// Represents the result of executing a command operation (e.g., create, update, delete).

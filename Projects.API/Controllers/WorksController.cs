@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using CORE.APP.Features;
+using CORE.APP.Models;
 using Projects.APP.Features.Works;
 using Microsoft.AspNetCore.Authorization;
 

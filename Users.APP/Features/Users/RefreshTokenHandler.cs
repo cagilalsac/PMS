@@ -1,4 +1,4 @@
-﻿using CORE.APP.Features;
+﻿using CORE.APP.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

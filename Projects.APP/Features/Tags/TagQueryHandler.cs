@@ -1,5 +1,5 @@
 ﻿using Projects.APP.Domain;
-using CORE.APP.Features;
+using CORE.APP.Models;
 using MediatR;
 using Projects.APP.Services;
 

@@ -1,6 +1,6 @@
 ﻿#nullable disable
 using Users.APP.Features.Users;
-using CORE.APP.Features;
+using CORE.APP.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

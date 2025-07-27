@@ -1,6 +1,6 @@
 ﻿using Projects.APP.Domain;
 using Projects.APP.Features.Projects;
-using CORE.APP.Features;
+using CORE.APP.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Projects.APP.Services;

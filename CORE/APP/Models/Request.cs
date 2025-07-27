@@ -1,4 +1,4 @@
-﻿namespace CORE.APP.Features
+﻿namespace CORE.APP.Models
 {
     /// <summary>
     /// Abstract base class for all requests.
