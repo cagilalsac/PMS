@@ -19,16 +19,16 @@ namespace CORE.APP.Services
     {
         /// <summary>
         /// Retrieves a list of items from the data source.
-        /// If a filter request is provided, the results will be filtered accordingly.
+        /// If a request is provided, the results can be filtered, paged or ordered accordingly.
         /// </summary>
-        /// <param name="filterRequest">
-        /// Optional filtering criteria, such as search text, pagination, or sorting. 
-        /// If <c>null</c>, all items are returned without filtering.
+        /// <param name="request">
+        /// Optional request criteria that may include search text, pagination, sorting, etc. 
+        /// If <c>null</c>, all items are returned without filtering, pagination or sorting.
         /// </param>
         /// <returns>
         /// A list of <typeparamref name="TResponse"/> objects representing the matched or all records.
         /// </returns>
-        public List<TResponse> GetList(TRequest filterRequest = default);
+        public List<TResponse> GetList(TRequest request = default);
 
         /// <summary>
         /// Retrieves a single item by its unique identifier.
