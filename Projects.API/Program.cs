@@ -16,11 +16,12 @@ builder.AddServiceDefaults();
 // Inversion of Control (IoC) for dependency injection:
 var connectionString = builder.Configuration.GetConnectionString("ProjectsDb"); // get connection string from appsettings.json
 
-// SQLite:
-builder.Services.AddDbContext<ProjectsDb>(options => options.UseSqlite(connectionString));
-
+// Inject ProjectsDb instance through service constructors with parameter of type ProjectsDb:
 // SQL Server LocalDB:
 //builder.Services.AddDbContext<ProjectsDb>(options => options.UseSqlServer(connectionString)); // define the DbContext with the connection string
+
+// SQLite:
+builder.Services.AddDbContext<ProjectsDb>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ProjectsDbService).Assembly)); // for IMediator injection in controllers
 

@@ -67,7 +67,7 @@ namespace Users.APP.Features.Users
         /// Initializes a new instance of the <see cref="TokenHandler"/> class.
         /// </summary>
         /// <param name="db">The application's user database context.</param>
-        public TokenHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
+        public TokenHandler(DbContext db) : base(db)
         {
         }
 

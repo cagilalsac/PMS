@@ -23,12 +23,12 @@ builder.AddServiceDefaults();
 // This determines where the application stores and retrieves user-related data.
 var connectionString = builder.Configuration.GetConnectionString("UsersDb");
 
-// Register the UsersDb context for Entity Framework Core using SQL Server.
+// Register the UsersDb context for DbContext injection in services for Entity Framework Core using SQL Server.
 // This enables the app to interact with the Users database via LINQ and EF models.
-//builder.Services.AddDbContext<UsersDb>(options => options.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<DbContext, UsersDb>(options => options.UseSqlServer(connectionString));
 
 // Alternative: Uncomment to use SQLite instead of SQL Server
-builder.Services.AddDbContext<UsersDb>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<DbContext, UsersDb>(options => options.UseSqlite(connectionString));
 
 
 

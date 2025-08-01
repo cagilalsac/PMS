@@ -22,7 +22,7 @@ namespace Users.APP.Features.Users
         /// Initializes a new instance of the <see cref="UserDeleteHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for handling user-related operations.</param>
-        public UserDeleteHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
+        public UserDeleteHandler(DbContext db) : base(db)
         {
         }
 
