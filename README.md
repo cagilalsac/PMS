@@ -119,7 +119,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
     public List<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Tag.cs
  
-31. Add DbSet<Project>, DbSet<ProjectTag> and DbSet<Work> to ProjectsDb:
+31. Add Projects, ProjectTags and Works DbSets to ProjectsDb:
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/ProjectsDb.cs
  
 32. Run migration for new tables:  
