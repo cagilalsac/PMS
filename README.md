@@ -18,7 +18,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 3. Docker Desktop installation for MAC:  
    https://need4code.com/DotNet?path=.NET%5C00_Files%5CDocker%5CDocker%20Microsoft%20SQL%20Server.pdf
       
-4. The E-R Diagram of the project:
+4. The E-R Diagram of the project:  
    https://need4code.com/DotNet?path=.NET%5C01_SQL%5CDemos%5C10%20-%20Project%20Management%20System%5CE-R%20Diagram.jpg
 
 ## 2. Solution Setup
