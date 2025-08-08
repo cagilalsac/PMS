@@ -110,14 +110,16 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 
 ## 8. Project and Work Entities
 
-30. Create Project and ProjectTag entities:  
+30. Create Project, ProjectTag and Work entities:  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Project.cs  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/ProjectTag.cs  
+    https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Work.cs  
  
     Add navigation property to Tag entity:  
-    public List<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();
+    public List<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();  
+    https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Tag.cs
  
-31. Add DbSet<Project> and DbSet<ProjectTag> to ProjectsDb:
+31. Add DbSet<Project>, DbSet<ProjectTag> and DbSet<Work> to ProjectsDb:
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/ProjectsDb.cs
  
 32. Run migration for new tables:  
