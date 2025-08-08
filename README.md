@@ -196,7 +196,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 43. Configure Program.cs and add ocelot.json:  
     https://github.com/cagilalsac/PMS/blob/master/Gateway.API/Program.cs  
     https://github.com/cagilalsac/PMS/blob/master/Gateway.API/ocelot.json  
-    Use launchSettings.json to set correct downstream URLs.
+    Use launchSettings.json files under the Properties folder of the Projects.API and Users.API to set correct downstream URLs.
 
 44. Access all endpoints via the gateway URL.  
     Example:  
