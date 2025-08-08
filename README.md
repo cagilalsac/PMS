@@ -144,7 +144,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 
 35. Scaffold ProjectsController and WorksController using Visual Studio:  
     Scaffolding templates can be found at:
-    https://need4code.com/DotNet/Home/Index?path=.NET%5C00_Files%5CScaffolding%20Templates%5CTemplates.7z
+    https://need4code.com/DotNet/Home/Index?path=.NET%5C00_Files%5CScaffolding%20Templates%5CTemplates.7z  
     Extract the Templates folder under your WebApi Project folders.
     
     https://github.com/cagilalsac/PMS/blob/master/Projects.API/Controllers/ProjectsController.cs  
