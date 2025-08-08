@@ -35,13 +35,12 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 
 9. Set Nullable to Disable for all class library projects (via project properties or XML).
 
-10. Create the folders and classes under the CORE project as in:  
-    https://github.com/cagilalsac/PMS/tree/master/CORE  
-    - APP/Domain/Entity.cs  
-    - APP/Services/ServiceBase.cs  
-    - APP/Models/Request.cs  
-    - APP/Models/QueryResponse.cs  
-    - APP/Models/CommandResponse.cs
+10. Create the folders and classes under the CORE project as below:  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Domain/Entity.cs  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Services/ServiceBase.cs  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/Request.cs  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/QueryResponse.cs  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/CommandResponse.cs
 
 ## 4. Projects.APP Project
 
