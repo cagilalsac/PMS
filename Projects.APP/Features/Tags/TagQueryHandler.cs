@@ -13,9 +13,9 @@ namespace Projects.APP.Features.Tags
     }
 
     /// <summary>
-    /// Represents a response to a tag query, inheriting from <see cref="QueryResponse"/>.
+    /// Represents a response to a tag query, inheriting from <see cref="Response"/>.
     /// </summary>
-    public class TagQueryResponse : QueryResponse
+    public class TagQueryResponse : Response
     {
         /// <summary>
         /// Gets or sets the name of the tag.

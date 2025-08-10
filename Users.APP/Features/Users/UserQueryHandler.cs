@@ -8,7 +8,7 @@ using Users.APP.Services;
 namespace Users.APP.Features.Users
 {
     /// <summary>
-    /// Represents a request to query user data.
+    /// Represents a request to query users.
     /// </summary>
     public class UserQueryRequest : Request, IRequest<IQueryable<UserQueryResponse>>
     {
@@ -17,7 +17,7 @@ namespace Users.APP.Features.Users
     /// <summary>
     /// Represents the response containing user data for a query.
     /// </summary>
-    public class UserQueryResponse : QueryResponse
+    public class UserQueryResponse : Response
     {
         /// <summary>
         /// Gets or sets the user's username.
@@ -86,7 +86,7 @@ namespace Users.APP.Features.Users
     }
 
     /// <summary>
-    /// Handles the request to query user data.
+    /// Handles the request to query users.
     /// </summary>
     public class UserQueryHandler : UserService, IRequestHandler<UserQueryRequest, IQueryable<UserQueryResponse>>
     {
@@ -121,11 +121,11 @@ namespace Users.APP.Features.Users
         }
 
         /// <summary>
-        /// Handles the request to query user data.
+        /// Handles the request to query users.
         /// </summary>
         /// <param name="request">The request containing the user data query parameters.</param>
         /// <param name="cancellationToken">The cancellation token to observe while waiting for the task to complete.</param>
-        /// <returns>A task representing the asynchronous operation, with a result of a queryable list of <see cref="UserQueryResponse"/>.</returns>
+        /// <returns>A task representing the asynchronous operation, with a result of a queryable <see cref="UserQueryResponse"/>.</returns>
         public Task<IQueryable<UserQueryResponse>> Handle(UserQueryRequest request, CancellationToken cancellationToken)
         {
             var query = Query().Select(u => new UserQueryResponse()

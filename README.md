@@ -39,7 +39,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
     - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Domain/Entity.cs  
     - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Services/ServiceBase.cs  
     - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/Request.cs  
-    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/QueryResponse.cs  
+    - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/Response.cs  
     - https://github.com/cagilalsac/PMS/tree/master/CORE/APP/Models/CommandResponse.cs
 
 ## 4. Projects.APP Project

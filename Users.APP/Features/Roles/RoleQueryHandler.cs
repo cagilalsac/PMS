@@ -19,7 +19,7 @@ namespace Users.APP.Features.Roles
     /// <summary>
     /// Represents the response format for querying roles.
     /// </summary>
-    public class RoleQueryResponse : QueryResponse
+    public class RoleQueryResponse : Response
     {
         /// <summary>
         /// Gets or sets the name of the role.
@@ -45,7 +45,7 @@ namespace Users.APP.Features.Roles
         /// Initializes a new instance of the <see cref="RoleQueryHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for role-related operations.</param>
-        public RoleQueryHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
+        public RoleQueryHandler(DbContext db) : base(db)
         {
         }
 

@@ -1,12 +1,13 @@
 ﻿using CORE.APP.Models;
 using CORE.APP.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Users.APP.Domain;
 
 namespace Users.APP.Features.Skills
 {
     /// <summary>
-    /// Represents a request to query the list of skills.
+    /// Represents a request to query the skills.
     /// </summary>
     public class SkillQueryRequest : Request, IRequest<IQueryable<SkillQueryResponse>>
     {
@@ -16,7 +17,7 @@ namespace Users.APP.Features.Skills
     /// <summary>
     /// Represents the response structure for querying skills.
     /// </summary>
-    public class SkillQueryResponse : QueryResponse
+    public class SkillQueryResponse : Response
     {
         /// <summary>
         /// Gets or sets the name of the skill.
@@ -33,7 +34,7 @@ namespace Users.APP.Features.Skills
         /// Initializes a new instance of the <see cref="SkillQueryHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for querying skills.</param>
-        public SkillQueryHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
+        public SkillQueryHandler(DbContext db) : base(db)
         {
         }
 
@@ -57,14 +58,14 @@ namespace Users.APP.Features.Skills
 
 
         /// <summary>
-        /// Handles the request to retrieve the list of skills.
+        /// Handles the request to retrieve the query of skills.
         /// </summary>
         /// <param name="request">The request to retrieve skills.</param>
         /// <param name="cancellationToken">The cancellation token to observe while waiting for the task to complete.</param>
         /// <returns>A queryable collection of <see cref="SkillQueryResponse"/> representing the skills.</returns>
         public Task<IQueryable<SkillQueryResponse>> Handle(SkillQueryRequest request, CancellationToken cancellationToken)
         {
-            // Retrieve the list of skills ordered by name and project them into the response model
+            // Retrieve the list of skills ordered by name and project them to the response model
             var query = Query().Select(s => new SkillQueryResponse()
             {
                 Id = s.Id,

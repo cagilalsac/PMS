@@ -17,7 +17,7 @@ namespace Projects.APP.Features.Projects
     /// <summary>
     /// Represents the response for a project query.
     /// </summary>
-    public class ProjectQueryResponse : QueryResponse
+    public class ProjectQueryResponse : Response
     {
         /// <summary>
         /// Gets or sets the name of the project.
@@ -48,8 +48,8 @@ namespace Projects.APP.Features.Projects
     }
 
     /// <summary>
-    /// Handles queries related to projects by fetching data from the database.
-    /// Implements IRequestHandler to process ProjectQueryRequest and return a list of ProjectQueryResponse.
+    /// Handles queries related to projects by querying data from the database.
+    /// Implements IRequestHandler to process ProjectQueryRequest and return a query of ProjectQueryResponse.
     /// </summary>
     public class ProjectQueryHandler : ProjectsDbService, IRequestHandler<ProjectQueryRequest, IQueryable<ProjectQueryResponse>>
     {

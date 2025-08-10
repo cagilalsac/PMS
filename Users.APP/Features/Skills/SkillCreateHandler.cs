@@ -31,7 +31,7 @@ namespace Users.APP.Features.Skills
         /// Initializes a new instance of the <see cref="SkillCreateHandler"/> class.
         /// </summary>
         /// <param name="db">The database context used for handling skill-related operations.</param>
-        public SkillCreateHandler(UsersDb db) : base(db) // DO NOT FORGET TO CHANGE THE CONSTRUCTOR'S PARAMETER from "DbContext db" to "UsersDb db"!
+        public SkillCreateHandler(DbContext db) : base(db)
         {
         }
 

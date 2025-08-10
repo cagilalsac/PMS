@@ -9,7 +9,7 @@ namespace Projects.APP.Features.Works
 {
     /// <summary>
     /// Represents a request for querying work items.
-    /// Inherits from Request and implements IRequest to return a queryable list of WorkQueryResponse.
+    /// Inherits from Request and implements IRequest to return a query of WorkQueryResponse.
     /// </summary>
     public class WorkQueryRequest : Request, IRequest<IQueryable<WorkQueryResponse>>
     {
@@ -53,7 +53,7 @@ namespace Projects.APP.Features.Works
     /// <summary>
     /// Represents the response for a work query, containing details about a work item.
     /// </summary>
-    public class WorkQueryResponse : QueryResponse
+    public class WorkQueryResponse : Response
     {
         /// <summary>
         /// The name of the work item.
@@ -103,7 +103,7 @@ namespace Projects.APP.Features.Works
     }
 
     /// <summary>
-    /// Handles the WorkQueryRequest and returns a queryable list of WorkQueryResponse objects.
+    /// Handles the WorkQueryRequest and returns a query of WorkQueryResponse.
     /// </summary>
     public class WorkQueryHandler : ProjectsDbService, IRequestHandler<WorkQueryRequest, IQueryable<WorkQueryResponse>>
     {
@@ -120,7 +120,7 @@ namespace Projects.APP.Features.Works
         /// </summary>
         /// <param name="request">The work query request containing filters.</param>
         /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
-        /// <returns>A queryable list of WorkQueryResponse objects.</returns>
+        /// <returns>A query of WorkQueryResponse.</returns>
         public Task<IQueryable<WorkQueryResponse>> Handle(WorkQueryRequest request, CancellationToken cancellationToken)
         {
             // Way 1: Fetch work items from the database and include related projects
