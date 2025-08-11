@@ -19,7 +19,7 @@ namespace Users.APP.Domain
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of users associated with this role.
+        /// Gets or sets the list of users associated with this role for role-user one to many relationship.
         /// </summary>
         public List<User> Users { get; set; } = new List<User>();
     }

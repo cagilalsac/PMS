@@ -38,23 +38,26 @@ namespace Projects.APP.Domain
 
         /// <summary>
         /// Gets or sets the collection of relational project tags.
-        /// This is a navigational property representing the tags associated with the project.
+        /// This is a navigational property representing the tags associated with the project for project-tag many to many relationship.
         /// </summary>
         public List<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();
 
         /// <summary>
         /// Gets or sets the list of tag IDs associated with the project by returning relational tag IDs 
-        /// from the relational ProjectTags collection or setting the relational ProjectTags collection 
+        /// from the relational ProjectTags collection, or setting the relational ProjectTags collection 
         /// by assigning from the tag IDs (value) set to this property.
         /// This property is not mapped to the database therefore there won't be a column in the table.
         /// </summary>
         [NotMapped]
         public List<int> TagIds
         {
-            get => ProjectTags.Select(pt => pt.TagId).ToList();
-            set => ProjectTags = value.Select(v => new ProjectTag() { TagId = v }).ToList();
+            get => ProjectTags.Select(projectTag => projectTag.TagId).ToList();
+            set => ProjectTags = value.Select(tagId => new ProjectTag() { TagId = tagId }).ToList();
         }
 
+        /// <summary>
+        /// Gets or sets the collection of works associated with the entity for project-work one to many relationship.
+        /// </summary>
         public List<Work> Works { get; set; } = new List<Work>();
     }
 }

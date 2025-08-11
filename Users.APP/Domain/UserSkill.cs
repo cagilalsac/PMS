@@ -3,7 +3,7 @@
 namespace Users.APP.Domain
 {
     /// <summary>
-    /// Represents the relationship between a user and a skill.
+    /// Represents the many to many relationship between a user and a skill.
     /// </summary>
     public class UserSkill : Entity
     {

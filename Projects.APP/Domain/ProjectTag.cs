@@ -3,7 +3,7 @@
 namespace Projects.APP.Domain
 {
     /// <summary>
-    /// Represents a linking entity between Project and Tag entities.
+    /// Represents a linking entity between Project and Tag entities for project-tag many to many relationship.
     /// Inherits from the base class Entity.
     /// </summary>
     public class ProjectTag : Entity

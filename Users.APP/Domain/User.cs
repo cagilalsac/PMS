@@ -52,17 +52,17 @@ namespace Users.APP.Domain
         public DateTime? RegistrationDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the role ID associated with the user.
+        /// Gets or sets the role ID associated with the user for role-user one to many relationship.
         /// </summary>
         public int RoleId { get; set; }
 
         /// <summary>
-        /// Gets or sets the role assigned to the user.
+        /// Gets or sets the role assigned to the user for role-user one to many relationship.
         /// </summary>
         public Role Role { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of user skills.
+        /// Gets or sets the list of user skills for user-skill many to many relationship.
         /// </summary>
         public List<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
 
@@ -70,13 +70,13 @@ namespace Users.APP.Domain
         /// Gets or sets a list of skill IDs associated with the user.
         /// </summary>
         /// <remarks>
-        /// This property is not mapped to the database and is used for easier manipulation of skills.
+        /// This property is not mapped to the database and is used for easier manipulation of UserSkills.
         /// </remarks>
         [NotMapped]
         public List<int> SkillIds
         {
-            get => UserSkills.Select(us => us.SkillId).ToList();
-            set => UserSkills = value.Select(v => new UserSkill() { SkillId = v }).ToList();
+            get => UserSkills.Select(userSkill => userSkill.SkillId).ToList();
+            set => UserSkills = value.Select(skillId => new UserSkill() { SkillId = skillId }).ToList();
         }
 
         /// <summary>
