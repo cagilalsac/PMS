@@ -115,8 +115,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/ProjectTag.cs  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Work.cs  
  
-    Add navigation property to Tag entity:  
-    public List<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();  
+    Add navigation property ProjectTags and property ProjectIds to Tag entity:  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/Tag.cs
  
 31. Add Projects, ProjectTags and Works DbSets to ProjectsDb:
