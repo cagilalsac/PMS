@@ -44,7 +44,15 @@ namespace Projects.APP.Features.Projects
         /// </summary>
         public string VersionF { get; set; }
 
-        public List<int> TagIds { get; set; }
+        /// <summary>
+        /// Gets or sets the tag ID list of the project.
+        /// </summary>
+        public List<int> TagIds { get; set; } = new List<int>();
+
+        /// <summary>
+        /// Gets or sets the comma seperated tags of the project.
+        /// </summary>
+        public string Tags { get; set; }
     }
 
     /// <summary>
@@ -83,7 +91,8 @@ namespace Projects.APP.Features.Projects
                     Url = p.Url,
                     Version = p.Version,
                     VersionF = p.Version.HasValue ? p.Version.Value.ToString("N1") : string.Empty,
-                    TagIds = p.TagIds
+                    TagIds = p.TagIds,
+                    Tags = string.Join(", ", p.ProjectTags.Select(pt => pt.Tag.Name))
                 }));
         }
     }

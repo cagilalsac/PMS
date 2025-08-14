@@ -38,31 +38,36 @@ namespace Users.APP.Features.Users
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name of the user.
+        /// Gets or sets the role IDs for the user.
         /// </summary>
-        [StringLength(50)]
-        public string Name { get; set; }
+        [Required]
+        public List<int> RoleIds { get; set; } = new List<int>();
 
         /// <summary>
-        /// Gets or sets the surname of the user.
+        /// Gets or sets the phone of the user.
         /// </summary>
-        [StringLength(50)]
-        public string Surname { get; set; }
+        /// <remarks>
+        /// The phone is required and must be maximum 15 characters in length.
+        /// </remarks>
+        [Required, StringLength(15)]
+        public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration date of the user.
+        /// Gets or sets the e-mail of the user.
         /// </summary>
-        public DateTime? RegistrationDate { get; set; }
+        /// <remarks>
+        /// The e-mail is required and must be maximum 200 characters in length.
+        /// </remarks>
+        [Required, StringLength(200)]
+        public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the role ID for the user.
+        /// Gets or sets the address of the user.
         /// </summary>
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of skill IDs associated with the user.
-        /// </summary>
-        public List<int> SkillIds { get; set; }
+        /// <remarks>
+        /// The address is optional and can be null.
+        /// </remarks>
+        public string Address { get; set; }
     }
 
     /// <summary>
@@ -86,25 +91,29 @@ namespace Users.APP.Features.Users
         /// <returns>A <see cref="CommandResponse"/> indicating the success or failure of the user creation operation.</returns>
         public async Task<CommandResponse> Handle(UserCreateRequest request, CancellationToken cancellationToken)
         {
-            // Check if a user with the same username or full name already exists
-            if (await Query().AnyAsync(u => u.UserName == request.UserName || 
-                                           (u.Name == request.Name && u.Surname == request.Surname), cancellationToken))
-                return Error("User with the same user name or full name exists!");
+            // Check if an active user with the same username already exists
+            if (await Query().AnyAsync(u => u.UserName == request.UserName && u.IsActive, cancellationToken))
+                return Error("Active user with the same user name exists!");
 
-            // Create a new user entity from the request data
+            // Create a new user entity with user details from the request data
             var user = new User()
             {
                 IsActive = request.IsActive,
-                Name = request.Name?.Trim(),
                 Password = request.Password,
-                RoleId = request.RoleId,
-                Surname = request.Surname?.Trim(),
+                RoleIds = request.RoleIds,
                 UserName = request.UserName,
-                RegistrationDate = request.RegistrationDate,
-                SkillIds = request.SkillIds
+                UserDetails = new List<UserDetail>()
+                {
+                    new UserDetail()
+                    {
+                        Address = request.Address?.Trim(), // if request.Address value is null assign null, otherwise assign trimmed request.Address value
+                        Email = request.Email?.Trim(), // ? may not be used since request.Email is required and can't be null
+                        Phone = request.Phone?.Trim() // ? may not be used since request.Phone is required and can't be null
+                    }
+                }
             };
 
-            // Add the new user to the database
+            // Add the new user with user details to the database
             await Create(user, cancellationToken);
 
             return Success("User created successfully.", user.Id);

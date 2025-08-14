@@ -41,7 +41,7 @@ namespace Projects.APP.Features.Projects
         /// List of tag IDs associated with the project.
         /// </summary>
         //[Required] // Uncomment to enforce that at least one tag ID must be present.
-        public List<int> TagIds { get; set; }
+        public List<int> TagIds { get; set; } = new List<int>();
     }
 
     /// <summary>

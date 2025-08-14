@@ -41,8 +41,8 @@ namespace Users.APP.Features.Roles
         protected override IQueryable<Role> Query(bool isNoTracking = true)
         {
             // Call the base implementation of Query, optionally disabling tracking for better performance on reads.
-            // Then use Include to eagerly load the Users related to each Role.
-            return base.Query(isNoTracking).Include(r => r.Users);
+            // Then use Include to eagerly load the UserRoles related to each Role.
+            return base.Query(isNoTracking).Include(r => r.UserRoles);
         }
 
         /// <summary>
@@ -60,13 +60,9 @@ namespace Users.APP.Features.Roles
             if (role is null)
                 return Error("Role not found!");
 
-            // If the role has associated users, it cannot be deleted
-            // Way 1:
-            //if (role.Users.Count > 0)
-            // Way 2:
-            if (role.Users.Any())
-                return Error("Role can't be deleted because it has relational users!");
-
+            // If the role has associated user roles, remove them first
+            Delete(role.UserRoles);
+            
             // Remove the role and save changes
             await Delete(role, cancellationToken);
 

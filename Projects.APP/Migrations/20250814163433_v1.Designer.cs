@@ -11,7 +11,7 @@ using Projects.APP.Domain;
 namespace Projects.APP.Migrations
 {
     [DbContext(typeof(ProjectsDb))]
-    [Migration("20250716120735_v1")]
+    [Migration("20250814163433_v1")]
     partial class v1
     {
         /// <inheritdoc />

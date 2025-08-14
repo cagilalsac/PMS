@@ -48,7 +48,7 @@ namespace Projects.APP.Features.Tags
 
             // Retrieve the tag to update.
             // Way 1:
-            //Tag tag = await _projectsDb.Tags.FindAsync(request.Id, cancellationToken);
+            //Tag tag = await _db.Tags.FindAsync(request.Id, cancellationToken);
             // Way 2:
             Tag tag = await _db.Tags.SingleOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
@@ -59,10 +59,10 @@ namespace Projects.APP.Features.Tags
             tag.Name = request.Name.Trim();
 
             // Update the tag using one of the following ways:
-            // Way 1: does not update relational data
-            //_projectsDb.Entry(tag).State = EntityState.Modified;
+            // Way 1: does not update relational data (don't use)
+            //_db.Entry(tag).State = EntityState.Modified;
             // Way 2: updates relational data
-            //_projectsDb.Update(tag);
+            //_db.Update(tag);
             // Way 3: updates relational data
             _db.Tags.Update(tag);
 

@@ -1,9 +1,5 @@
 # Project Development Roadmap
 
-Note: Project development roadmap can also be found at: https://github.com/cagilalsac/PMS/tree/master/PMS.AppHost/Roadmap.pdf
-
-Note: In order to open the links, you must download and open the pdf file with a browser.  
-
 Note: For database, you can either use SQL Server LocalDB if you use Windows and Visual Studio Community, or SQLite (https://www.sqlite.org/) 
 if you use an operating system other than Windows, or SQL Server with Docker if you use an operating system other than Windows.
 
@@ -54,7 +50,7 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 14. Create the ProjectsDb DbContext class under the Domain folder:  
     https://github.com/cagilalsac/PMS/blob/master/Projects.APP/Domain/ProjectsDb.cs
  
-15. Install Microsoft.EntityFrameworkCore.SqlServer NuGet package (latest version 8.x).
+15. For SQL Server, install Microsoft.EntityFrameworkCore.SqlServer NuGet package (latest version 8.x).
  
 16. For SQLite, install System.Data.SQLite.Core and Microsoft.EntityFrameworkCore.Sqlite NuGet packages (latest version 8.x).  
     (Optional) Install "SQLite and SQL Server Compact Toolbox" extension for Visual Studio for SQLite management.
@@ -151,10 +147,19 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
 
 ## 11. Generic Service and User Management
 
-36. Implement a base generic service class in CORE/APP/Services:  
+36. Create the User, Role, UserRole and UserDetail entities in the Users.APP Project's Domain folder:
+    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Domain/User.cs  
+    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Domain/Role.cs  
+    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Domain/UserRole.cs  
+    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Domain/UserDetail.cs
+
+37. Create the Users, Roles, UserRoles and UserDetails DbSets in the UsersDb class under the User.APP Project's Domain folder:  
+    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Domain/UsersDb.cs
+
+38. Implement a base generic service class in CORE/APP/Services:  
     https://github.com/cagilalsac/PMS/blob/master/CORE/APP/Services/Service.cs
  
-37. Create UserService and user/role/skill handlers in Users.APP:  
+39. Create UserService with user and role handlers in Users.APP:  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Services/UserService.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Users/UserCreateHandler.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Users/UserDeleteHandler.cs  
@@ -164,40 +169,43 @@ if you use an operating system other than Windows, or SQL Server with Docker if 
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Roles/RoleDeleteHandler.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Roles/RoleQueryHandler.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Roles/RoleUpdateHandler.cs  
-    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Skills/SkillCreateHandler.cs  
-    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Skills/SkillDeleteHandler.cs  
-    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Skills/SkillQueryHandler.cs  
-    https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Skill/SkillUpdateHandler.cs
 
-38. Add AppSettings and configure JWT authentication in Users.APP and Users.API:  
+40. Add AppSettings and configure JWT authentication in Users.APP and Users.API:  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/AppSettings.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.API/appsettings.json  
     https://github.com/cagilalsac/PMS/blob/master/Users.API/Program.cs
 
-39. Implement token and refresh token logic in Users.APP/Features/Users:  
+41. Implement token and refresh token logic in Users.APP/Features/Users:  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Users/TokenHandler.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.APP/Features/Users/RefreshTokenHandler.cs
 
-40. Apply [Authorize] and [AllowAnonymous] attributes in API controllers:  
+42. Scaffold UsersController and RolesController:
+    Scaffolding templates can be found at:  
+    https://need4code.com/DotNet/Home/Index?path=.NET%5C00_Files%5CScaffolding%20Templates%5CTemplates.7z  
+    Extract the Templates folder under your WebApi Project folders.
+    
+    https://github.com/cagilalsac/PMS/blob/master/Users.API/Controllers/UsersController.cs  
+    https://github.com/cagilalsac/PMS/blob/master/Users.API/Controllers/RolesController.cs
+
+43. Apply [Authorize] and [AllowAnonymous] attributes in API controllers:  
     https://github.com/cagilalsac/PMS/blob/master/Users.API/Controllers/UsersController.cs  
     https://github.com/cagilalsac/PMS/blob/master/Users.API/Controllers/RolesController.cs  
-    https://github.com/cagilalsac/PMS/blob/master/Users.API/Controllers/SkillsController.cs  
     https://github.com/cagilalsac/PMS/blob/master/Projects.API/Controllers/ProjectsController.cs  
     https://github.com/cagilalsac/PMS/blob/master/Projects.API/Controllers/TagsController.cs  
     https://github.com/cagilalsac/PMS/blob/master/Projects.API/Controllers/WorksController.cs
 
 ## 12. API Gateway
 
-41. Create Gateway.API project (ASP.NET Core Web API, .NET 8, no OpenAPI, no controllers, Aspire orchestration).
+44. Create Gateway.API project (ASP.NET Core Web API, .NET 8, no OpenAPI, no controllers, Aspire orchestration).
  
-42. Install Ocelot NuGet package.
+45. Install Ocelot NuGet package.
  
-43. Configure Program.cs and add ocelot.json:  
+46. Configure Program.cs and add ocelot.json:  
     https://github.com/cagilalsac/PMS/blob/master/Gateway.API/Program.cs  
     https://github.com/cagilalsac/PMS/blob/master/Gateway.API/ocelot.json  
     Use launchSettings.json files under the Properties folder of the Projects.API and Users.API to set correct downstream URLs.
 
-44. Access all endpoints via the gateway URL.  
+47. Access all endpoints via the gateway URL.  
     Example:  
     https: https://localhost:7212  
     http: http://localhost:5260

@@ -29,7 +29,7 @@ namespace Projects.APP.Features.Tags
         {
             // Check to ensure the tag name doesn't already exist in the database:
             // Way 1:
-            //var existingTag = await _projectsDb.Tags.SingleOrDefaultAsync(t => t.Name.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken);
+            //var existingTag = await _db.Tags.SingleOrDefaultAsync(t => t.Name.ToUpper() == request.Name.ToUpper().Trim(), cancellationToken);
             //if (existingTag is not null)
             //    return Error("Tag with the same name exists!");
             // Way 2:
@@ -43,8 +43,8 @@ namespace Projects.APP.Features.Tags
             };
 
             // Add the tag to the database context
-            // Way 1: does not insert relational data
-            //_projectsDb.Entry(tag).State = EntityState.Added;
+            // Way 1: does not insert relational data (don't use)
+            //_db.Entry(tag).State = EntityState.Added;
             // Way 2: inserts relational data
             //_db.Add(tag);
             // Way 3: inserts relational data

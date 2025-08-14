@@ -27,20 +27,21 @@ namespace Users.APP.Features.Users
         }
 
         /// <summary>
-        /// Returns a queryable collection of <see cref="User"/> entities with their associated <see cref="UserSkills"/> included.
-        /// Overrides the base method to apply eager loading for the <see cref="User.UserSkills"/> navigation property,
-        /// allowing related user skill data to be retrieved in the same query.
+        /// Returns a queryable collection of <see cref="User"/> entities with their associated 
+        /// <see cref="UserRole"/> and <see cref="UserDetail"/> collections included.
+        /// Overrides the base method to apply eager loading for the <see cref="UserRole"/> and <see cref="UserDetail"/> navigation properties,
+        /// allowing related user roles and user details data to be retrieved in the same query.
         /// </summary>
         /// <param name="isNoTracking">
         /// If <c>true</c>, disables EF Core's change tracking to improve performance in read-only scenarios.
         /// If <c>false</c>, enables tracking to allow entity updates after querying.
         /// </param>
         /// <returns>
-        /// An <see cref="IQueryable{User}"/> that includes related <see cref="UserSkills"/> data.
+        /// An <see cref="IQueryable{User}"/> that includes related <see cref="UserRole"/> and <see cref="UserDetail"/> collections.
         /// </returns>
         protected override IQueryable<User> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(u => u.UserSkills);
+            return base.Query(isNoTracking).Include(u => u.UserRoles).Include(u => u.UserDetails);
         }
 
         /// <summary>
@@ -51,15 +52,18 @@ namespace Users.APP.Features.Users
         /// <returns>A <see cref="CommandResponse"/> indicating the success or failure of the user deletion operation.</returns>
         public async Task<CommandResponse> Handle(UserDeleteRequest request, CancellationToken cancellationToken)
         {
-            // Retrieve the user from the database, including their associated user skills
+            // Retrieve the user from the database, including their associated user roles and user details
             var user = await Query().SingleOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
             // Check if the user exists
             if (user is null)
                 return Error("User not found!");
 
-            // Remove the user's skills from the UserSkills table
-            Delete(user.UserSkills);
+            // Remove the user roles from the UserRoles table
+            Delete(user.UserRoles);
+
+            // Remove the user details from the UserDetails table
+            Delete(user.UserDetails);
 
             // Remove the user from the Users table
             await Delete(user, cancellationToken);

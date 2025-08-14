@@ -72,19 +72,20 @@ namespace Users.APP.Features.Users
         }
 
         /// <summary>
-        /// Returns a queryable collection of <see cref="User"/> entities with their associated <see cref="Role"/> included.
-        /// Overrides the base method to apply eager loading for the <see cref="User.Role"/> navigation property.
+        /// Returns a queryable collection of <see cref="User"/> entities with their associated 
+        /// <see cref="UserRole"/> and <see cref="Role"/> navigation properties eagerly included.
+        /// Overrides the base method to apply eager loading.
         /// </summary>
         /// <param name="isNoTracking">
         /// If <c>true</c>, disables change tracking for better performance in read-only operations.
         /// If <c>false</c>, enables change tracking to allow updates to the queried entities.
         /// </param>
         /// <returns>
-        /// An <see cref="IQueryable{User}"/> with the <see cref="Role"/> navigation property eagerly loaded.
+        /// An <see cref="IQueryable{User}"/> with the <see cref="UserRole"/> and <see cref="Role"/> navigation properties eagerly loaded.
         /// </returns>
         protected override IQueryable<User> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(u => u.Role);
+            return base.Query(isNoTracking).Include(u => u.UserRoles).ThenInclude(ur => ur.Role);
         }
 
         /// <summary>

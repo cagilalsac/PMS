@@ -60,19 +60,19 @@ namespace Users.APP.Features.Users
         }
 
         /// <summary>
-        /// Returns a queryable collection of <see cref="User"/> entities, including related <see cref="Role"/> data.
-        /// Overrides the base query to eagerly load the associated role for each user.
+        /// Returns a queryable collection of <see cref="User"/> entities, including related <see cref="Role"/> collection.
+        /// Overrides the base query to eagerly load the associated user roles and roles for each user.
         /// </summary>
         /// <param name="isNoTracking">
         /// Indicates whether the query should track changes to the entities.
         /// Set to <c>true</c> for read-only scenarios to improve performance (default is <c>true</c>).
         /// </param>
         /// <returns>
-        /// An <see cref="IQueryable{User}"/> with the <see cref="Role"/> navigation property included.
+        /// An <see cref="IQueryable{User}"/> with the <see cref="UserRole"/> and <see cref="Role"/> navigation properties included.
         /// </returns>
         protected override IQueryable<User> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(user => user.Role);
+            return base.Query(isNoTracking).Include(user => user.UserRoles).ThenInclude(userRole => userRole.Role);
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
-﻿using Users.APP.Domain;
-using CORE.APP.Models;
+﻿using CORE.APP.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Users.APP.Domain;
 using Users.APP.Services;
 
 namespace Users.APP.Features.Users
@@ -32,31 +32,36 @@ namespace Users.APP.Features.Users
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name of the user.
+        /// Gets or sets the role IDs of the user.
         /// </summary>
-        [StringLength(50)]
-        public string Name { get; set; }
+        [Required]
+        public List<int> RoleIds { get; set; } = new List<int>();
 
         /// <summary>
-        /// Gets or sets the surname of the user.
+        /// Gets or sets the phone of the user.
         /// </summary>
-        [StringLength(50)]
-        public string Surname { get; set; }
+        /// <remarks>
+        /// The phone is required and must be maximum 15 characters in length.
+        /// </remarks>
+        [Required, StringLength(15)]
+        public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration date of the user.
+        /// Gets or sets the e-mail of the user.
         /// </summary>
-        public DateTime? RegistrationDate { get; set; }
+        /// <remarks>
+        /// The e-mail is required and must be maximum 200 characters in length.
+        /// </remarks>
+        [Required, StringLength(200)]
+        public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the role ID of the user.
+        /// Gets or sets the address of the user.
         /// </summary>
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of skill IDs associated with the user.
-        /// </summary>
-        public List<int> SkillIds { get; set; }
+        /// <remarks>
+        /// The address is optional and can be null.
+        /// </remarks>
+        public string Address { get; set; }
     }
 
     /// <summary>
@@ -73,20 +78,21 @@ namespace Users.APP.Features.Users
         }
 
         /// <summary>
-        /// Returns a queryable collection of <see cref="User"/> entities with their associated <see cref="UserSkills"/> included.
-        /// Overrides the base method to apply eager loading for the <see cref="User.UserSkills"/> navigation property,
-        /// allowing related user skill data to be retrieved in the same query.
+        /// Returns a queryable collection of <see cref="User"/> entities with their associated <see cref="UserRole"/> 
+        /// and <see cref="UserDetail"/> collections included.
+        /// Overrides the base method to apply eager loading for the relational data,
+        /// allowing related user roles and user details data to be retrieved in the same query.
         /// </summary>
         /// <param name="isNoTracking">
         /// If <c>true</c>, disables EF Core's change tracking to improve performance in read-only scenarios.
         /// If <c>false</c>, enables tracking to allow entity updates after querying.
         /// </param>
         /// <returns>
-        /// An <see cref="IQueryable{User}"/> that includes related <see cref="UserSkills"/> data.
+        /// An <see cref="IQueryable{User}"/> that includes related <see cref="UserRole"/> and <see cref="UserDetail"/> collections.
         /// </returns>
         protected override IQueryable<User> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking).Include(u => u.UserSkills);
+            return base.Query(isNoTracking).Include(u => u.UserRoles).Include(u => u.UserDetails);
         }
 
         /// <summary>
@@ -97,29 +103,35 @@ namespace Users.APP.Features.Users
         /// <returns>A task representing the asynchronous operation, with a result of a <see cref="CommandResponse"/> indicating the outcome of the operation.</returns>
         public async Task<CommandResponse> Handle(UserUpdateRequest request, CancellationToken cancellationToken)
         {
-            // Check if another user with the same username or full name exists (excluding the user being updated)
-            if (await Query().AnyAsync(u => u.Id != request.Id && 
-                                           (u.UserName == request.UserName || (u.Name == request.Name && u.Surname == request.Surname)), 
-                                           cancellationToken))
-                return Error("User with the same user name or full name exists!");
+            // Check if another active user with the same username exists (excluding the user being updated)
+            if (await Query().AnyAsync(u => u.Id != request.Id && u.UserName == request.UserName && u.IsActive, cancellationToken))
+                return Error("Active user with the same user name exists!");
 
             // Retrieve the user from the database
             var user = await Query().SingleOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
             if (user is null)
                 return Error("User not found!");
 
-            // Remove existing user skills before updating
-            Delete(user.UserSkills);
+            // Remove existing user roles before updating
+            Delete(user.UserRoles);
+
+            // Remove existing user details before updating
+            Delete(user.UserDetails);
 
             // Update the user information
             user.IsActive = request.IsActive;
-            user.Name = request.Name?.Trim();
             user.Password = request.Password;
-            user.RoleId = request.RoleId;
-            user.Surname = request.Surname?.Trim();
             user.UserName = request.UserName;
-            user.RegistrationDate = request.RegistrationDate;
-            user.SkillIds = request.SkillIds;
+            user.RoleIds = request.RoleIds;
+            user.UserDetails = new List<UserDetail>()
+            {
+                new UserDetail()
+                {
+                    Address = request.Address?.Trim(), // if request.Address value is null assign null, otherwise assign trimmed request.Address value
+                    Email = request.Email?.Trim(), // ? may not be used since request.Email is required and can't be null
+                    Phone = request.Phone?.Trim() // ? may not be used since request.Phone is required and can't be null
+                }
+            };
 
             // Save the updated user data to the database
             await Update(user, cancellationToken);

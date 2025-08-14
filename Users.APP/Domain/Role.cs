@@ -1,5 +1,6 @@
 ﻿using CORE.APP.Domain;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Users.APP.Domain
 {
@@ -19,8 +20,20 @@ namespace Users.APP.Domain
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of users associated with this role for role-user one to many relationship.
+        /// Gets or sets the list of user roles associated with this role for user-role many to many relationship.
         /// </summary>
-        public List<User> Users { get; set; } = new List<User>();
+        public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
+
+        /// <summary>
+        /// Gets or sets the list of user IDs associated with this role.
+        /// Setting this property updates the <see cref="UserRoles"/> collection accordingly.
+        /// There is no column for this property in the Roles table since NotMapped is defined.
+        /// </summary>
+        [NotMapped]
+        public List<int> UserIds
+        {
+            get => UserRoles.Select(userRole => userRole.UserId).ToList();
+            set => UserRoles = value.Select(userId => new UserRole() { UserId = userId }).ToList();
+        }
     }
 }

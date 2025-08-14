@@ -34,14 +34,19 @@ namespace Projects.APP.Features.Projects
         /// <returns>A command response indicating success or failure.</returns>
         public async Task<CommandResponse> Handle(ProjectDeleteRequest request, CancellationToken cancellationToken)
         {
-            // Retrieve the project entity along with its associated tags
+            // Retrieve the project entity along with its associated works and tags
             var entity = await _db.Projects
+                .Include(p => p.Works)
                 .Include(p => p.ProjectTags)
                 .SingleOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
             // Return an error if the project does not exist
             if (entity is null)
                 return Error("Project not found!");
+
+            // do not delete the project if there are any relational works data
+            if (entity.Works.Count > 0) // if (entity.Works.Any()) can also be written
+                return Error("Project can't be deleted because it has relational works!");
 
             // Remove all associated tags before deleting the project
             _db.ProjectTags.RemoveRange(entity.ProjectTags);

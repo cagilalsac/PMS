@@ -1,8 +1,8 @@
-﻿using Users.APP.Domain;
-using Users.APP.Features.Skills;
-using CORE.APP.Models;
+﻿using CORE.APP.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Users.APP.Domain;
+using Users.APP.Features.Roles;
 using Users.APP.Services;
 
 namespace Users.APP.Features.Users
@@ -40,49 +40,29 @@ namespace Users.APP.Features.Users
         public string IsActiveF { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration date of the user.
+        /// Gets or sets the IDs of the user's roles.
         /// </summary>
-        public DateTime? RegistrationDate { get; set; }
+        public List<int> RoleIds { get; set; } = new List<int>();
 
         /// <summary>
-        /// Gets or sets the formatted registration date of the user.
+        /// Gets or sets the list of roles associated with the user.
         /// </summary>
-        public string RegistrationDateF { get; set; }
+        public List<RoleQueryResponse> Roles { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name of the user.
+        /// Gets or sets the phone of the user.
         /// </summary>
-        public string Name { get; set; }
+        public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the surname of the user.
+        /// Gets or sets the e-mail of the user.
         /// </summary>
-        public string Surname { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the full name of the user (Name + Surname).
+        /// Gets or sets the address of the user.
         /// </summary>
-        public string FullName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ID of the user's role.
-        /// </summary>
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the user's role.
-        /// </summary>
-        public string Role { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of skill IDs associated with the user.
-        /// </summary>
-        public List<int> SkillIds { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of skills associated with the user.
-        /// </summary>
-        public List<SkillQueryResponse> Skills { get; set; }
+        public string Address { get; set; }
     }
 
     /// <summary>
@@ -100,24 +80,25 @@ namespace Users.APP.Features.Users
 
         /// <summary>
         /// Returns a queryable collection of <see cref="User"/> entities with related data included.
-        /// Overrides the base method to eagerly load the associated <see cref="Role"/> and 
-        /// <see cref="UserSkills"/> navigation properties, including the nested <see cref="Skill"/> within <see cref="UserSkills"/>.
-        /// The results are ordered by the user's <see cref="User.Name"/> property.
+        /// Overrides the base method to eagerly load the associated <see cref="UserRole"/>, 
+        /// <see cref="Role"/> and <see cref="UserDetail"/> navigation properties. 
+        /// The results are ordered by the user's <see cref="User.UserName"/> property.
         /// </summary>
         /// <param name="isNoTracking">
         /// If <c>true</c>, disables change tracking for better performance in read-only queries.
         /// If <c>false</c>, enables tracking to allow modifications to queried entities.
         /// </param>
         /// <returns>
-        /// An <see cref="IQueryable{User}"/> with <see cref="Role"/>, <see cref="UserSkills"/>, and nested <see cref="Skill"/> included, ordered by user name.
+        /// An <see cref="IQueryable{User}"/> with <see cref="UserRole"/>, <see cref="Role"/> 
+        /// and <see cref="UserDetail"/> included, ordered by user name.
         /// </returns>
         protected override IQueryable<User> Query(bool isNoTracking = true)
         {
             return base.Query(isNoTracking)
-                       .Include(u => u.Role)
-                       .Include(u => u.UserSkills)
-                       .ThenInclude(us => us.Skill)
-                       .OrderBy(u => u.Name);
+                       .Include(u => u.UserRoles)
+                       .ThenInclude(ur => ur.Role)
+                       .Include(u => u.UserDetails)
+                       .OrderBy(u => u.UserName);
         }
 
         /// <summary>
@@ -129,26 +110,22 @@ namespace Users.APP.Features.Users
         public Task<IQueryable<UserQueryResponse>> Handle(UserQueryRequest request, CancellationToken cancellationToken)
         {
             var query = Query().Select(u => new UserQueryResponse()
+            {
+                Id = u.Id,
+                IsActive = u.IsActive,
+                IsActiveF = u.IsActive ? "Active" : "Inactive",
+                Password = u.Password,
+                UserName = u.UserName,
+                RoleIds = u.UserRoles.Select(ur => ur.RoleId).ToList(),
+                Roles = u.UserRoles.Select(ur => new RoleQueryResponse()
                 {
-                    Id = u.Id,
-                    Name = u.Name,
-                    FullName = u.Name + " " + u.Surname,
-                    IsActive = u.IsActive,
-                    IsActiveF = u.IsActive ? "Active" : "Inactive",
-                    Password = u.Password,
-                    Role = u.Role.Name,
-                    Surname = u.Surname,
-                    UserName = u.UserName,
-                    RegistrationDate = u.RegistrationDate,
-                    RegistrationDateF = u.RegistrationDate.HasValue ? u.RegistrationDate.Value.ToString("MM/dd/yyyy") : string.Empty,
-                    RoleId = u.RoleId,
-                    SkillIds = u.SkillIds,
-                    Skills = u.UserSkills.Select(us => new SkillQueryResponse()
-                    {
-                        Id = us.Skill.Id,
-                        Name = us.Skill.Name
-                    }).ToList()
-                });
+                    Id = ur.Role.Id,
+                    Name = ur.Role.Name
+                }).ToList(),
+                Phone = u.UserDetails.FirstOrDefault() == null ? string.Empty : u.UserDetails.FirstOrDefault().Phone,
+                Email = u.UserDetails.FirstOrDefault() == null ? string.Empty : u.UserDetails.FirstOrDefault().Email,
+                Address = u.UserDetails.FirstOrDefault() == null ? string.Empty : u.UserDetails.FirstOrDefault().Address
+            });
             return Task.FromResult(query);
         }
     }

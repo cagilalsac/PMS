@@ -34,18 +34,24 @@ namespace Projects.APP.Features.Tags
         /// <returns>A task that represents the asynchronous operation. The task result contains the command response.</returns>
         public async Task<CommandResponse> Handle(TagDeleteRequest request, CancellationToken cancellationToken)
         {
-            // Find the tag to delete.
-            Tag tag = await _db.Tags.SingleOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+            // Before for only tag implementations: Find the tag to delete.
+            //Tag tag = await _db.Tags.SingleOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+
+            // After project implementations: Find the tag including the relational project tags to delete.
+            Tag tag = await _db.Tags.Include(t => t.ProjectTags).SingleOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
             if (tag is null)
                 return Error("Tag not found!");
 
+            // After project implementations: Remove the relational project tags.
+            _db.ProjectTags.RemoveRange(tag.ProjectTags);
+
             // Delete the tag using one of the following ways:
-            // Way 1
-            //_projectsDb.Entry(tag).State = EntityState.Deleted; 
-            // Way 2
-            //_projectsDb.Remove(tag); 
-            // Way 3
+            // Way 1: does not delete relational data (don't use)
+            //_db.Entry(tag).State = EntityState.Deleted; 
+            // Way 2: deletes relational data
+            //_db.Remove(tag); 
+            // Way 3: deletes relational data
             _db.Tags.Remove(tag); 
 
             // Save the changes to the database by unit of work.

@@ -39,7 +39,7 @@ namespace Projects.APP.Features.Projects
         /// <summary>
         /// List of tag IDs associated with the project.
         /// </summary>
-        public List<int> TagIds { get; set; }
+        public List<int> TagIds { get; set; } = new List<int>();
     }
 
     /// <summary>

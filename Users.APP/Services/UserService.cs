@@ -51,15 +51,19 @@ namespace Users.APP.Services
         /// Generates a list of claims based on the provided user object.
         /// </summary>
         /// <param name="user">The user for whom to generate claims.</param>
-        /// <returns>A list of claims including Name, Role, and Id.</returns>
+        /// <returns>A list of claims including Name, Role Names, and Id.</returns>
         protected virtual List<Claim> GetClaims(User user)
         {
-            return new List<Claim>()
+            var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role.Name),
                 new Claim("Id", user.Id.ToString()) // Custom claim for the user's ID
             };
+            foreach (var userRole in user.UserRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole.Role.Name));
+            }
+            return claims;
         }
 
         /// <summary>

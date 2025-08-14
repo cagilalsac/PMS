@@ -63,8 +63,9 @@ namespace Users.APP.Features.Roles
         protected override IQueryable<Role> Query(bool isNoTracking = true)
         {
             // Call the base implementation of Query, optionally disabling tracking for better performance on reads.
-            // Then use Include to eagerly load the Users related to each Role.
-            return base.Query(isNoTracking).Include(r => r.Users).OrderBy(r => r.Name);
+            // Then use Include to eagerly load the UserRoles related to each Role
+            // then use ThenInclude to eagerly load User related to each UserRole.
+            return base.Query(isNoTracking).Include(r => r.UserRoles).ThenInclude(ur => ur.User).OrderBy(r => r.Name);
         }
 
         /// <summary>
@@ -80,16 +81,13 @@ namespace Users.APP.Features.Roles
                 {
                     Id = r.Id,
                     Name = r.Name,
-                    Users = r.Users.Select(u => new UserQueryResponse()
+                    Users = r.UserRoles.Select(ur => new UserQueryResponse()
                     {
-                        FullName = u.Name + " " + u.Surname,
-                        Id = u.Id,
-                        IsActive = u.IsActive,
-                        IsActiveF = u.IsActive ? "Active" : "Inactive",
-                        Name = u.Name,
-                        Password = u.Password,
-                        Surname = u.Surname,
-                        UserName = u.UserName
+                        Id = ur.User.Id,
+                        IsActive = ur.User.IsActive,
+                        IsActiveF = ur.User.IsActive ? "Active" : "Inactive",
+                        Password = new string('*', ur.User.Password.Length), // to conceal the password
+                        UserName = ur.User.UserName
                     }).ToList()
                 });
 

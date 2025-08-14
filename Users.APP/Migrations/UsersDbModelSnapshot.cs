@@ -33,22 +33,6 @@ namespace Users.APP.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Users.APP.Domain.Skill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(125)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Skills");
-                });
-
             modelBuilder.Entity("Users.APP.Domain.User", b =>
                 {
                     b.Property<int>("Id")
@@ -57,10 +41,6 @@ namespace Users.APP.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -73,16 +53,6 @@ namespace Users.APP.Migrations
                     b.Property<DateTime?>("RefreshTokenExpiration")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("RegistrationDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Surname")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -90,18 +60,45 @@ namespace Users.APP.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Users.APP.Domain.UserSkill", b =>
+            modelBuilder.Entity("Users.APP.Domain.UserDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SkillId")
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserDetails");
+                });
+
+            modelBuilder.Entity("Users.APP.Domain.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
@@ -109,56 +106,53 @@ namespace Users.APP.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSkills");
+                    b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Users.APP.Domain.User", b =>
+            modelBuilder.Entity("Users.APP.Domain.UserDetail", b =>
                 {
-                    b.HasOne("Users.APP.Domain.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Users.APP.Domain.UserSkill", b =>
-                {
-                    b.HasOne("Users.APP.Domain.Skill", "Skill")
-                        .WithMany("UserSkills")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Users.APP.Domain.User", "User")
-                        .WithMany("UserSkills")
+                        .WithMany("UserDetails")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Skill");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Users.APP.Domain.UserRole", b =>
+                {
+                    b.HasOne("Users.APP.Domain.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Users.APP.Domain.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Users.APP.Domain.Role", b =>
                 {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Users.APP.Domain.Skill", b =>
-                {
-                    b.Navigation("UserSkills");
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("Users.APP.Domain.User", b =>
                 {
-                    b.Navigation("UserSkills");
+                    b.Navigation("UserDetails");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

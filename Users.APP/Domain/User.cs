@@ -35,48 +35,27 @@ namespace Users.APP.Domain
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name of the user.
+        /// Gets or sets the user details information associated with the user for user-userdetail one to many relationship.
+        /// However, we will have only one user detail data associated with a user in our application providing one to one relationship.
         /// </summary>
-        [StringLength(50)]
-        public string Name { get; set; }
+        public List<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
 
         /// <summary>
-        /// Gets or sets the surname of the user.
+        /// Gets or sets the list of user roles for user-role many to many relationship.
         /// </summary>
-        [StringLength(50)]
-        public string Surname { get; set; }
+        public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
         /// <summary>
-        /// Gets or sets the date when the user registered.
-        /// </summary>
-        public DateTime? RegistrationDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the role ID associated with the user for role-user one to many relationship.
-        /// </summary>
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the role assigned to the user for role-user one to many relationship.
-        /// </summary>
-        public Role Role { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of user skills for user-skill many to many relationship.
-        /// </summary>
-        public List<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
-
-        /// <summary>
-        /// Gets or sets a list of skill IDs associated with the user.
+        /// Gets or sets a list of role IDs associated with the user.
         /// </summary>
         /// <remarks>
-        /// This property is not mapped to the database and is used for easier manipulation of UserSkills.
+        /// This property is not mapped to the database and is used for easier manipulation of UserRoles.
         /// </remarks>
         [NotMapped]
-        public List<int> SkillIds
+        public List<int> RoleIds
         {
-            get => UserSkills.Select(userSkill => userSkill.SkillId).ToList();
-            set => UserSkills = value.Select(skillId => new UserSkill() { SkillId = skillId }).ToList();
+            get => UserRoles.Select(userRole => userRole.RoleId).ToList();
+            set => UserRoles = value.Select(roleId => new UserRole() { RoleId = roleId }).ToList();
         }
 
         /// <summary>
